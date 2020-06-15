@@ -11,7 +11,7 @@ db = SQLAlchemy(app)
 
 @app.route('/api/apps/<app_id>/traces/', methods=['POST'])
 def create_trace(app_id):
-  trace_data = request.json['trace_data']
+  trace_data = request.json['trace']
   trace = Trace(app_id, trace_data['span_id'], trace_data['event_name'], trace_data['event_data'])
   db.session.add(trace)
   db.session.commit()
@@ -43,8 +43,8 @@ class Trace(db.Model):
         self.event_data = event_data
         self.time_stamp = datetime.now()
 
-    def serialize:
-      {
+    def serialize():
+      return {
         "app_id": self.app_id,
         "span_id": self.span_id,
         "event_name": self.event_name,
