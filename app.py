@@ -44,7 +44,7 @@ class Trace(db.Model):
         self.event_data = event_data
         self.time_stamp = datetime.now()
 
-    def serialize():
+    def serialize(self):
       return {
         "app_id": self.app_id,
         "span_id": self.span_id,
