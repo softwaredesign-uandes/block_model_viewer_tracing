@@ -21,8 +21,7 @@ def create_trace(app_id):
 @app.route('/api/apps/<app_id>/traces/', methods=['GET'])
 def get_traces(app_id):
   traces = Trace.query.filter_by(app_id=app_id).all()
-  traces = map(lambda t: t.serialize(), traces)
-  return jsonify({ "traces": traces })
+  return jsonify({ "traces": [t.serialize() for t in traces] })
 
 @app.after_request
 def add_header(response):
