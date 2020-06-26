@@ -18,9 +18,14 @@ def create_trace(app_id):
   db.session.commit()
   return jsonify({ "trace": trace.serialize() })
 
-@app.route('/api/apps/<app_id>/traces/', methods=['GET'])
+@app.route('/api/apps/<app_id>/spans/', methods=['GET'])
 def get_traces(app_id):
   traces = Trace.query.filter_by(app_id=app_id).all()
+  return jsonify({ "spans": [{ "span_id": t.span_id } for t in traces] })
+
+@app.route('/api/apps/<app_id>/spans/<span_id>/traces', methods=['GET'])
+def get_traces(app_id, span_id):
+  traces = Trace.query.filter_by(app_id=app_id, span_id=span_id).all()
   return jsonify({ "traces": [t.serialize() for t in traces] })
 
 @app.after_request
